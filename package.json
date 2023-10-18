@@ -10,15 +10,22 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.1.13",
+    "bufferutil": "^4.0.8",
     "framer-motion": "^10.16.4",
     "next": "13.5.5",
+    "next-qrcode": "^2.5.1",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "socket.io-client": "^4.7.2",
+    "supports-color": "^9.4.0",
+    "utf-8-validate": "^5.0.10",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^9.0.5",
     "autoprefixer": "^10",
     "postcss": "^8",
     "tailwindcss": "^3",
