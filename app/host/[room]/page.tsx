@@ -34,6 +34,7 @@ export default function Room({ params }: { params: { room: string } }) {
           <Link
             className='text-gray-400 pt-2 w-11/12 text-sm text-center hover:underline'
             href={ `${process.env.NEXT_PUBLIC_SOCKET_SITE_URL}/join/${params.room}` }
+            target='_blank'
           >
             { `${params.room}` }
           </Link>
