@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.1.13",
+    "@yimura/scraper": "^1.2.4",
     "bufferutil": "^4.0.8",
     "framer-motion": "^10.16.4",
     "next": "13.5.5",
