@@ -3,7 +3,6 @@
 import { io, Socket } from 'socket.io-client';
 import { useState, useEffect, useRef } from 'react';
 import { Card } from '@nextui-org/card';
-import Link from 'next/link';
 import SongCard from '@/app/components/SongCard';
 import { Song } from '@/app/types/SongTypes';
 import JoinCard from '@/app/components/JoinCard';
