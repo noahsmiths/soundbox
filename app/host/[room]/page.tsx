@@ -56,7 +56,7 @@ export default function Room({ params }: { params: { room: string } }) {
         </div>
         <div className='max-h-full col-span-1'>
           <JoinCard
-            url={ `${process.env.NEXT_PUBLIC_SOCKET_SITE_URL}/join/${params.room}` }
+            url={ `${window.location.origin}/join/${params.room}` }
             displayText={ params.room }
           />
         </div>
