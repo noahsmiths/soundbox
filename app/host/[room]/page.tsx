@@ -14,14 +14,18 @@ export default function Room({ params }: { params: { room: string } }) {
   useEffect(() => {
     socket.current = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || '');
     socket.current.emit('join', { room: params.room });
-    socket.current.on('add-song', (song: Song) => {
-      setSongQueue([...songQueue, song]);
-    });
 
     return () => {
       socket.current?.disconnect();
     }
   }, []);
+
+  useEffect(() => {
+    socket.current?.off('add-song');
+    socket.current?.on('add-song', (song: Song) => {
+      setSongQueue([...songQueue, song]);
+    });
+  }, [songQueue]);
 
   return (
     <main className='flex justify-center items-center flex-col min-h-screen flex-none'>
@@ -29,18 +33,23 @@ export default function Room({ params }: { params: { room: string } }) {
         <div className='col-span-3'>
           <Card className='p-4'>
             <h1 className='font-bold text-2xl mb-2'>Room Queue:</h1>
-            <div className='overflow-y-scroll max-h-[80vh] min-h-[80vh]'>
+            <div className='overflow-y-scroll max-h-[80vh] min-h-[80vh] flex items-center flex-col'>
               {
-                songQueue.map((song, i) => {
-                  return (
-                    <SongCard
-                      name={song.name}
-                      image={song.image}
-                      artist={song.artist}
-                      key={i}
-                    />
-                  )
-                })
+                songQueue.length > 0
+                ?
+                  songQueue.map((song, i) => {
+                    return (
+                      <SongCard
+                        name={song.name}
+                        image={song.image}
+                        artist={song.artist}
+                        key={i}
+                        className='w-full'
+                      />
+                    )
+                  })
+                :
+                  <h2 className='text-xl text-gray-400'>Song Queue Empty</h2>
               }
             </div>
           </Card>
