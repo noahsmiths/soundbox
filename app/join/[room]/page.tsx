@@ -36,8 +36,8 @@ export default function Join({ params }: { params: { room: string} }) {
               name: "The Beatles - Don't Let Me Down",
               image: "https://i.ytimg.com/vi/NCtzkaL2t_Y/maxresdefault.jpg",
               artist: "The Beatles",
-              url: "https://example.com"
-            },);
+              url: "https://www.youtube.com/watch?v=NCtzkaL2t_Y"
+            });
           }
         }
       >
