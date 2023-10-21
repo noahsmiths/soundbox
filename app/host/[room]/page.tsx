@@ -12,11 +12,11 @@ import { Button } from '@nextui-org/button';
 export default function Room({ params }: { params: { room: string } }) {
   const socket = useRef<Socket | null>(null);
   const [songQueue, setSongQueue] = useState<Song[]>([]);
-  const [hasWindow, setHasWindow] = useState<boolean>(false);
+  const [isClient, setIsClient] = useState<boolean>(false);
   const [playSong, setPlaySong] = useState<boolean>(true);
 
   useEffect(() => {
-    setHasWindow(true);
+    setIsClient(true);
 
     socket.current = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || '');
     socket.current.emit('join', { room: params.room });
@@ -62,16 +62,21 @@ export default function Room({ params }: { params: { room: string } }) {
         </div>
         <div className='max-h-full col-span-2 h-full flex gap-4 flex-col'>
           {
-            hasWindow && (
+            isClient && (
               <>
-                <Card className='p-4 h-2/5'>
-                  <ReactPlayer
-                    url={songQueue[0]?.url}
-                    playing={playSong}
-                    controls={false}
-                    width={'100%'}
-                    height={'100%'}
-                  />
+                <Card className='p-4 h-2/5 flex justify-center items-center'>
+                  { songQueue.length > 0 ? (
+                      <ReactPlayer
+                        url={songQueue[0]?.url}
+                        playing={playSong}
+                        controls={false}
+                        width={'100%'}
+                        height={'100%'}
+                      />
+                    ) : (
+                      <h2 className='text-xl text-gray-400'>No Video</h2>
+                    )
+                  }
                 </Card>
                 <JoinCard
                   url={ `${window.location.origin}/join/${params.room}` }
