@@ -19,6 +19,16 @@ export default function Room({ params }: { params: { room: string } }) {
     setIsClient(true);
 
     socket.current = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || '');
+
+    socket.current?.on('add-song', (song: Song) => {
+      setSongQueue((oldQueue) => {
+        // Adding this fake parameter onto the song URL below forces the player to refresh even if the URL is otherwise the same
+        // This makes it play the same video again if it's queued more than once.
+        song.url += `&extra_random_param=${Date.now()}`;
+        return [...oldQueue, song];
+      });
+    });
+
     socket.current.emit('join', { room: params.room });
 
     return () => {
@@ -26,12 +36,11 @@ export default function Room({ params }: { params: { room: string } }) {
     }
   }, []);
 
-  useEffect(() => {
-    socket.current?.off('add-song');
-    socket.current?.on('add-song', (song: Song) => {
-      setSongQueue([...songQueue, song]);
+  function playNext() {
+    setSongQueue((oldQueue) => {
+      return oldQueue.slice(1);
     });
-  }, [songQueue]);
+  }
 
   return (
     <main className='flex justify-center items-center flex-col min-h-screen flex-none'>
@@ -39,7 +48,7 @@ export default function Room({ params }: { params: { room: string } }) {
         <div className='col-span-5'>
           <Card className='p-4'>
             <h1 className='font-bold text-2xl mb-2'>Room Queue:</h1>
-            <div className='overflow-y-scroll max-h-[80vh] min-h-[80vh] flex items-center flex-col'>
+            <div className='overflow-y-scroll max-h-[80vh] min-h-[80vh]'>
               {
                 songQueue.length > 0 ? (
                   songQueue.map((song, i) => {
@@ -72,6 +81,7 @@ export default function Room({ params }: { params: { room: string } }) {
                         controls={false}
                         width={'100%'}
                         height={'100%'}
+                        onEnded={playNext}
                       />
                     ) : (
                       <h2 className='text-xl text-gray-400'>No Video</h2>
