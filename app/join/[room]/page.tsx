@@ -43,6 +43,20 @@ export default function Join({ params }: { params: { room: string} }) {
       >
       Click to add song
       </Button>
+      <Button
+        onPress={
+          () => {
+            emit<Song>(params.room, 'add-song', {
+              name: "Never gonna give you up",
+              image: "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+              artist: "Rick Astley",
+              url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            });
+          }
+        }
+      >
+      Click to add song 2
+      </Button>
     </main>
   );
 }
