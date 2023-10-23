@@ -20,7 +20,7 @@ export default function Room({ params }: { params: { room: string } }) {
 
     socket.current = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || '');
 
-    socket.current?.on('add-song', (song: Song) => {
+    socket.current.on('add-song', (song: Song) => {
       setSongQueue((oldQueue) => {
         // Adding this fake parameter onto the song URL below forces the player to refresh even if the URL is otherwise the same
         // This makes it play the same video again if it's queued more than once.
@@ -29,7 +29,9 @@ export default function Room({ params }: { params: { room: string } }) {
       });
     });
 
-    socket.current.emit('join', { room: params.room });
+    socket.current.on('connect', () => {
+      socket.current?.emit('join', { room: params.room });
+    });
 
     return () => {
       socket.current?.disconnect();
