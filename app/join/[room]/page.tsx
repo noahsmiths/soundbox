@@ -61,7 +61,15 @@ export default function Join({ params }: { params: { room: string} }) {
           return (
             <div key={i}>
               { video.title }
-              <Button onPress={() => { emit<Song>(params.room, 'add-song', { name: video.title, image: video.thumbnail, artist: video.channel.name, url: video.link }) }}>Play this</Button>
+              <Button
+                onPress={
+                  () => {
+                    emit<Song>(params.room, 'add-song', { name: video.title, image: video.thumbnail, artist: video.channel.name, url: video.link });
+                  }
+                }
+              >
+                Play this
+              </Button>
             </div>
           );
         })
